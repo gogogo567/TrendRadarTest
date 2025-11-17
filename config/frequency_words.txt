@@ -22,6 +22,7 @@ Openai
 Google
 Meta
 特斯拉
+英伟达
 微软
 数字经济  
 量子计算 
