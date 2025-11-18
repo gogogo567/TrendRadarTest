@@ -2881,9 +2881,9 @@ def split_content_into_batches(
     elif format_type == "feishu":
         base_header = ""
     elif format_type == "dingtalk":
+        base_header += f"**类型：** 信筑AI新闻聚合\n\n"
         base_header = f"**总新闻数：** {total_titles}\n\n"
         base_header += f"**时间：** {now.strftime('%Y-%m-%d %H:%M:%S')}\n\n"
-        base_header += f"**类型：** 热点分析报告\n\n"
         base_header += "---\n\n"
 
     base_footer = ""
@@ -2919,7 +2919,7 @@ def split_content_into_batches(
         elif format_type == "feishu":
             stats_header = f"📊 **热点词汇统计**\n\n"
         elif format_type == "dingtalk":
-            stats_header = f"📊 **热点词汇统计**\n\n"
+            stats_header = f"📰 **热点新闻汇总**\n\n"
 
     current_batch = base_header
     current_batch_has_content = False
@@ -2976,14 +2976,14 @@ def split_content_into_batches(
                         f"📈 {sequence_display} **{word}** : **{count}** 条\n\n"
                     )
                 else:
-                    word_header = f"📌 {sequence_display} **{word}** : {count} 条\n\n"
+                    word_header = f"⭐️ {sequence_display} **{word}** : {count} 条\n\n"
             elif format_type == "telegram":
                 if count >= 10:
                     word_header = f"🔥 {sequence_display} {word} : {count} 条\n\n"
                 elif count >= 5:
                     word_header = f"📈 {sequence_display} {word} : {count} 条\n\n"
                 else:
-                    word_header = f"📌 {sequence_display} {word} : {count} 条\n\n"
+                    word_header = f"⭐️ {sequence_display} {word} : {count} 条\n\n"
             elif format_type == "ntfy":
                 if count >= 10:
                     word_header = (
@@ -2994,14 +2994,14 @@ def split_content_into_batches(
                         f"📈 {sequence_display} **{word}** : **{count}** 条\n\n"
                     )
                 else:
-                    word_header = f"📌 {sequence_display} **{word}** : {count} 条\n\n"
+                    word_header = f"⭐️ {sequence_display} **{word}** : {count} 条\n\n"
             elif format_type == "feishu":
                 if count >= 10:
                     word_header = f"🔥 <font color='grey'>{sequence_display}</font> **{word}** : <font color='red'>{count}</font> 条\n\n"
                 elif count >= 5:
                     word_header = f"📈 <font color='grey'>{sequence_display}</font> **{word}** : <font color='orange'>{count}</font> 条\n\n"
                 else:
-                    word_header = f"📌 <font color='grey'>{sequence_display}</font> **{word}** : {count} 条\n\n"
+                    word_header = f"⭐️ <font color='grey'>{sequence_display}</font> **{word}** : {count} 条\n\n"
             elif format_type == "dingtalk":
                 if count >= 10:
                     word_header = (
@@ -3012,7 +3012,7 @@ def split_content_into_batches(
                         f"📈 {sequence_display} **{word}** : **{count}** 条\n\n"
                     )
                 else:
-                    word_header = f"📌 {sequence_display} **{word}** : {count} 条\n\n"
+                    word_header = f"⭐️ {sequence_display} **{word}** : {count} 条\n\n"
 
             # 构建第一条新闻
             first_news_line = ""
