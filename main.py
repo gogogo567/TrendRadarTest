@@ -2750,10 +2750,9 @@ def render_dingtalk_content(
     import datetime
     now = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=8)))
 
-
+    text_content += f"**类型：** 信筑AI新闻聚合\n\n"
     text_content += f"**总新闻数：** {total_titles}\n\n"
     text_content += f"**时间：** {now.strftime('%Y-%m-%d %H:%M:%S')}\n\n"
-    text_content += f"**类型：** 热点分析报告\n\n"
 
     text_content += "---\n\n"
 
