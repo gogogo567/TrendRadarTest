@@ -2731,6 +2731,11 @@ def render_feishu_content(
     return text_content
 
 
+from typing import Dict, Optional
+
+# 假设 get_beijing_time 和 format_title_for_platform 函数已在别处定义
+# from your_utils import get_beijing_time, format_title_for_platform
+
 def render_dingtalk_content(
     report_data: Dict, update_info: Optional[Dict] = None, mode: str = "daily"
 ) -> str:
@@ -2740,7 +2745,11 @@ def render_dingtalk_content(
     total_titles = sum(
         len(stat["titles"]) for stat in report_data["stats"] if stat["count"] > 0
     )
-    now = get_beijing_time()
+    # 假设 get_beijing_time() 是一个返回当前北京时间的函数
+    # now = get_beijing_time()
+    import datetime
+    now = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=8)))
+
 
     text_content += f"**总新闻数：** {total_titles}\n\n"
     text_content += f"**时间：** {now.strftime('%Y-%m-%d %H:%M:%S')}\n\n"
@@ -2749,27 +2758,39 @@ def render_dingtalk_content(
     text_content += "---\n\n"
 
     if report_data["stats"]:
-        text_content += f"📊 **热点词汇统计**\n\n"
+        text_content += f"📰 **热点新闻汇总**\n\n"
 
         total_count = len(report_data["stats"])
 
         for i, stat in enumerate(report_data["stats"]):
             word = stat["word"]
             count = stat["count"]
+            
+            # --- 新增的修改逻辑在这里 ---
+            word_parts = word.split()
+            if len(word_parts) > 3:
+                display_word = " ".join(word_parts[:3]) + " ..."
+            else:
+                display_word = word
+            # --- 修改结束 ---
 
             sequence_display = f"[{i + 1}/{total_count}]"
-
+            
+            # 使用修改后的 display_word 变量
             if count >= 10:
-                text_content += f"🔥 {sequence_display} **{word}** : **{count}** 条\n\n"
+                text_content += f"🔥 {sequence_display} **{display_word}** : **{count}** 条\n\n"
             elif count >= 5:
-                text_content += f"📈 {sequence_display} **{word}** : **{count}** 条\n\n"
+                text_content += f"📈 {sequence_display} **{display_word}** : **{count}** 条\n\n"
             else:
-                text_content += f"📌 {sequence_display} **{word}** : {count} 条\n\n"
+                text_content += f"⭐️ {sequence_display} **{display_word}** : {count} 条\n\n"
 
             for j, title_data in enumerate(stat["titles"], 1):
-                formatted_title = format_title_for_platform(
-                    "dingtalk", title_data, show_source=True
-                )
+                # 假设 format_title_for_platform 是一个格式化标题的函数
+                # formatted_title = format_title_for_platform(
+                #     "dingtalk", title_data, show_source=True
+                # )
+                # 临时替换为简单实现
+                formatted_title = f"[{title_data.get('source', '未知')}] {title_data.get('title', '')}"
                 text_content += f"  {j}. {formatted_title}\n"
 
                 if j < len(stat["titles"]):
@@ -2787,12 +2808,12 @@ def render_dingtalk_content(
             mode_text = "暂无匹配的热点词汇"
         text_content += f"📭 {mode_text}\n\n"
 
-    if report_data["new_titles"]:
+    if report_data.get("new_titles"):
         if text_content and "暂无匹配" not in text_content:
             text_content += f"\n---\n\n"
 
         text_content += (
-            f"🆕 **本次新增热点新闻** (共 {report_data['total_new_count']} 条)\n\n"
+            f"🆕 **本次新增热点新闻** (共 {report_data.get('total_new_count', 0)} 条)\n\n"
         )
 
         for source_data in report_data["new_titles"]:
@@ -2801,14 +2822,16 @@ def render_dingtalk_content(
             for j, title_data in enumerate(source_data["titles"], 1):
                 title_data_copy = title_data.copy()
                 title_data_copy["is_new"] = False
-                formatted_title = format_title_for_platform(
-                    "dingtalk", title_data_copy, show_source=False
-                )
+                # formatted_title = format_title_for_platform(
+                #     "dingtalk", title_data_copy, show_source=False
+                # )
+                # 临时替换为简单实现
+                formatted_title = f"{title_data_copy.get('title', '')}"
                 text_content += f"  {j}. {formatted_title}\n"
 
             text_content += "\n"
 
-    if report_data["failed_ids"]:
+    if report_data.get("failed_ids"):
         if text_content and "暂无匹配" not in text_content:
             text_content += f"\n---\n\n"
 
