@@ -2752,7 +2752,7 @@ def render_dingtalk_content(
 
     text_content += f"**类型：** 信筑AI新闻聚合\n\n"
     text_content += f"**总新闻数：** {total_titles}\n\n"
-    text_content += f"**时间：** {now.strftime('%Y-%m-%d %H:%M:%S')}\n\n"
+    text_content += f"**时间：** {now.strftime('%Y-%m-%d')}\n\n"
 
     text_content += "---\n\n"
 
@@ -2838,7 +2838,7 @@ def render_dingtalk_content(
         for i, id_value in enumerate(report_data["failed_ids"], 1):
             text_content += f"  • **{id_value}**\n"
 
-    text_content += f"\n\n> 更新时间：{now.strftime('%Y-%m-%d %H:%M:%S')}"
+    text_content += f"\n\n>   更新时间：{now.strftime('%Y-%m-%d %H:%M:%S')}"
 
     if update_info:
         text_content += f"\n> TrendRadar 发现新版本 **{update_info['remote_version']}**，当前 **{update_info['current_version']}**"
@@ -2881,9 +2881,8 @@ def split_content_into_batches(
     elif format_type == "feishu":
         base_header = ""
     elif format_type == "dingtalk":
-        base_header += f"**类型：** 信筑AI新闻聚合\n\n"
-        base_header = f"**总新闻数：** {total_titles}\n\n"
-        base_header += f"**时间：** {now.strftime('%Y-%m-%d %H:%M:%S')}\n\n"
+        base_header = f"**类型：** 信筑AI新闻聚合\n\n"
+        base_header += f"**时间：** {now.strftime('%Y-%m-%d)}\n\n"
         base_header += "---\n\n"
 
     base_footer = ""
