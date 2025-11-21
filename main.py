@@ -2882,7 +2882,8 @@ def split_content_into_batches(
         base_header = ""
     elif format_type == "dingtalk":
         base_header = f"**类型：** 信筑AI新闻聚合\n\n"
-        base_header += f"**时间：** {now.strftime('%Y-%m-%d)}\n\n"
+        date_str = now.strftime('%Y-%m-%d')
+        base_header += f"**时间：** {date_str}\n\n"
         base_header += "---\n\n"
 
     base_footer = ""
